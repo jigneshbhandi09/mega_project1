@@ -34,8 +34,8 @@ for i in range(1,4):
             except:
                 news_location.append(" ")
             try:
-                link=tit.find("a")
-                news_url.append(link)
+                link=tit.find('a')
+                news_url.append(link.get('href'))
             except:
                 news_url.append(" ")
         except:
