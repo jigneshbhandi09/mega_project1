@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup
 import requests
 
 def scrape_ndtv_africa_news(country_code, pages=3):
-    base_url = f"https://www.ndtv.com/world/{country_code}/page-"
 
     news_title = []
     news_date = []
@@ -12,9 +11,13 @@ def scrape_ndtv_africa_news(country_code, pages=3):
 
     try:
         for i in range(1, pages + 1):
-            url = base_url + str(i)
+            url = f"https://web-cdn.api.bbci.co.uk/xd/content-collection/f7905f4a-3031-4e07-ac0c-ad31eeb6a08e?country=in&page={i}&size=9"
+            
             news_world = requests.get(url)
             soup = BeautifulSoup(news_world.content, 'html.parser')
+
+            
+            
             print(f"Scraping page {i} for {country_code.upper()}...")
 
             # Find the section containing news items
