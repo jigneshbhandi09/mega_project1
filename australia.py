@@ -35,7 +35,7 @@ for i in range(1,4):
                 news_location.append(" ")
             try:
                 link=tit.find("a")
-                news_url.append(link.text)
+                news_url.append(link)
             except:
                 news_url.append(" ")
         except:
