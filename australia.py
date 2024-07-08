@@ -8,7 +8,7 @@ news_date=[]
 news_location=[]
 news_url=[]
 
-for i in range(1,4):
+for i in range(1,11):
     news_world=requests.get(url+str(i),'lxml')
     soup=BeautifulSoup(news_world.text)
     # print(soup.find("body"))
