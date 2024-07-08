@@ -2,6 +2,7 @@ import pandas as pd
 import requests
 import csv
 import os.path
+from tabulate import tabulate
 
 # Set up logging to CSV file
 log_file = 'load_data.csv'
@@ -23,7 +24,7 @@ def log_to_csv(level, message):
 # Function to scrape BBC Africa news
 def scrape_bbc_africa_news():
     base_url = "https://web-cdn.api.bbci.co.uk/xd/content-collection/f7905f4a-3031-4e07-ac0c-ad31eeb6a08e?country=ke&page={}"
-    for page in range(10):  # Iterate over pages 0 to 8
+    for page in range(10):  # Iterate over pages 0 to 9
         url = base_url.format(page)
         try:
             response = requests.get(url)
@@ -46,7 +47,7 @@ def scrape_bbc_africa_news():
                     log_to_csv('INFO', link)  # Log each news item's link
 
                 # Create DataFrame
-                df = pd.DataFrame(news_data, columns=['date', 'title', 'summary', 'link'])
+                df = pd.DataFrame(news_data, columns=['Date', 'Title', 'Summary', 'Link'])
 
                 # Save DataFrame to CSV file
                 filename = "africa_news.csv"
@@ -62,6 +63,13 @@ def scrape_bbc_africa_news():
 
         except requests.RequestException as e:
             log_to_csv('ERROR', f"Error fetching BBC Africa news for page {page}: {e}")
+
+    # Display data in tabular format
+    try:
+        df_display = pd.read_csv(filename)
+        print(tabulate(df_display, headers='keys', tablefmt='psql'))
+    except FileNotFoundError:
+        print(f"File '{filename}' not found.")
 
 # Execute scraping function
 scrape_bbc_africa_news()
