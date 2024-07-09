@@ -4,11 +4,10 @@ import csv
 import os.path
 from tabulate import tabulate
 
-# Set up logging to CSV file
+# loding to CSV file
 log_file = 'load_data.csv'
 log_columns = ['timestamp', 'level', 'link']
 
-# Create the CSV log file if it doesn't exist and write the header
 if not os.path.exists(log_file):
     with open(log_file, mode='w', newline='') as file:
         writer = csv.writer(file)
@@ -21,10 +20,10 @@ def log_to_csv(level, message):
         writer = csv.writer(file)
         writer.writerow([timestamp, level, message])
 
-# Function to scrape BBC Africa news
+# Function to scrape Africa news
 def scrape_bbc_africa_news():
     base_url = "https://web-cdn.api.bbci.co.uk/xd/content-collection/f7905f4a-3031-4e07-ac0c-ad31eeb6a08e?country=ke&page={}"
-    for page in range(10):  # Iterate over pages 0 to 9
+    for page in range(10):  # Iterate over 9 pages
         url = base_url.format(page)
         try:
             response = requests.get(url)
@@ -39,15 +38,14 @@ def scrape_bbc_africa_news():
                 for item in news_items:
                     title = item.get('title', '')
                     date = item.get('firstPublishedAt', '')
-                    summary = item.get('summary', '')
                     link = f"https://www.bbc.com{item.get('path', '')}"
 
                     # Append data to list
-                    news_data.append([date, title, summary, link])
+                    news_data.append([date, title, link])
                     log_to_csv('INFO', link)  # Log each news item's link
 
                 # Create DataFrame
-                df = pd.DataFrame(news_data, columns=['Date', 'Title', 'Summary', 'Link'])
+                df = pd.DataFrame(news_data, columns=['Date', 'Title', 'Link'])
 
                 # Save DataFrame to CSV file
                 filename = "africa_news.csv"
