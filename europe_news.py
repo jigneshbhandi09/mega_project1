@@ -58,6 +58,7 @@ else:
             })
         except Exception as e:
             print(f"Error processing article: {e}")
+    print(data)    
 
 # Save the data to a CSV file
 save_to_csv(data)
